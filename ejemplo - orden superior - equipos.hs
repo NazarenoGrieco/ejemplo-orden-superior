@@ -1,3 +1,9 @@
+comoSeLlama :: Equipo -> String
+comoSeLlama (Equipo nom _ _ _ ) = nom
+
+nombrePersona ::  (String, Int, Bool, Float) -> String
+nombrePersona (nombre,_,_,_)= nombre
+
 
 data Equipo = Equipo {
     nombre::String,
@@ -7,32 +13,61 @@ data Equipo = Equipo {
 } deriving Show
 
 
+equiposDeEjemplo :: [Equipo]
 equiposDeEjemplo = [boca, river, racing]
 
+
+boca,river,racing::Equipo
 boca = Equipo  "Boca Juniors" ["palermo","riquelme"] 10 "bianchi"
 river = Equipo  "River Plate" ["quinteros","martinez","prato"] 10 "gallardo"
 racing = Equipo "Racing Club" [] 7 "merlo"
 
 
 ganaPartido :: Equipo -> Equipo
-ganaPartido equipo = equipo{puntos= puntos equipo + 3 }
+--ganaPartido equipo = equipo{puntos= puntos equipo + 3 }
+ganaPartido (Equipo nom jugadores puntos director) = 
+  Equipo nom jugadores (puntos + 3)  director
 
 perderPartido :: Equipo -> Equipo
 perderPartido equipo = equipo
 
 contratarJugador:: String -> Equipo -> Equipo
-contratarJugador jug equipo = equipo{jugadores =  jug:jugadores equipo}
+--contratarJugador jug equipo = equipo{jugadores =  jug:jugadores equipo}
+contratarJugador jug (Equipo nom jugadores puntos director) = 
+  Equipo nom (jug:jugadores) puntos director
 
+desastre:: Equipo -> Equipo
+desastre (Equipo nom jugadores puntos director) = 
+  Equipo ("chau " ++ nom) []  (puntos - 17) director
+
+
+cotizacion::Equipo -> Int
 cotizacion equipo = puntos equipo + length (jugadores equipo)
+--cotizacion (Equipo nom jugs pts dirt) = pts + length jugs
 
+premios:: Equipo -> Int
 premios equipo = puntos equipo * 3
 
-
+esBueno::Equipo -> Bool
 esBueno equipo = puntos equipo > 8
 
+esGenial::Equipo -> Bool
 esGenial equipo = elem "riquelme" (jugadores equipo)
 
-f x y = filter (\e->e >y)  [1..x]
+loTieneA :: Sting -> Equipo -> Bool
+loTieneA persona equipo = elem persona (jugadores equipo) || dt equipo == persona
+
+
+
+esMejorQue::Equipo -> Equipo -> Bool
+esMejorQue equipo1 equipo2 =  puntos equipo1 > puntos equipo2
+
+esMejorCotizado:: Equipo -> Equipo -> Bool
+esMejorCotizado equipo1 equipo2 = cotizacion equipo1 > cotizacion equipo2
+
+
+
+
 -- Requerimiento
 -- cuantosEquiposBuenosHay equiposDeEjemplo  --> 2
 
@@ -41,10 +76,18 @@ cuantosEquiposBuenosHay (e:es)
   | esBueno e = 1 + cuantosEquiposBuenosHay es
   | otherwise =  cuantosEquiposBuenosHay es
 
+
 cuantosEquiposGenialesHay [] = 0
 cuantosEquiposGenialesHay (e:es) 
   | esGenial e = 1 + cuantosEquiposGenialesHay es
   | otherwise =  cuantosEquiposGenialesHay es
+
+
+
+
+
+
+
 
 
 cuantosEquiposSon:: (t1 -> Bool) -> [t1] -> Int
