@@ -102,7 +102,7 @@ a1 b c d = b c + b d
 a2 b c d 
    | b d > c d = c
    | otherwise = b
-
+-- un comentario
 a3 b c = b c
 
 a4 b c d = b d c
