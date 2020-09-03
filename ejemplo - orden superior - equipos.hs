@@ -54,43 +54,43 @@ esBueno equipo = puntos equipo > 8
 esGenial::Equipo -> Bool
 esGenial equipo = elem "riquelme" (jugadores equipo)
 
-loTieneA :: Sting -> Equipo -> Bool
+loTieneA :: String -> Equipo -> Bool
 loTieneA persona equipo = elem persona (jugadores equipo) || dt equipo == persona
 
+mejor:: (Equipo -> Int )   -> Equipo  -> Equipo -> Bool
+mejor criterio equipo1 equipo2 = criterio equipo1 > criterio equipo2
 
 
-esMejorQue::Equipo -> Equipo -> Bool
-esMejorQue equipo1 equipo2 =  puntos equipo1 > puntos equipo2
+--masPuntos ::Equipo -> Equipo -> Bool
+--masPuntos equipo1 equipo2 =  puntos equipo1 > puntos equipo2
 
-esMejorCotizado:: Equipo -> Equipo -> Bool
-esMejorCotizado equipo1 equipo2 = cotizacion equipo1 > cotizacion equipo2
+--esMejorCotizado:: Equipo -> Equipo -> Bool
+--esMejorCotizado equipo1 equipo2 = cotizacion equipo1 > cotizacion equipo2
+
+--directorTecnicoMasExperimentado:: Equipo -> Equipo -> Bool
+--directorTecnicoMasExperimentado e1 e2 = experiencia (dt e1) > experiencia (dt e2)
+
+experienciaDelTecnico equipo = experiencia (dt equipo)
 
 
-
-
+experiencia nombre = length nombre * 2
 -- Requerimiento
 -- cuantosEquiposBuenosHay equiposDeEjemplo  --> 2
 
+cuantosEquiposBuenosHay :: [Equipo] -> Int
 cuantosEquiposBuenosHay [] = 0
 cuantosEquiposBuenosHay (e:es) 
   | esBueno e = 1 + cuantosEquiposBuenosHay es
   | otherwise =  cuantosEquiposBuenosHay es
 
-
+cuantosEquiposGenialesHay :: [Equipo] -> Int
 cuantosEquiposGenialesHay [] = 0
 cuantosEquiposGenialesHay (e:es) 
   | esGenial e = 1 + cuantosEquiposGenialesHay es
   | otherwise =  cuantosEquiposGenialesHay es
 
 
-
-
-
-
-
-
-
-cuantosEquiposSon:: (t1 -> Bool) -> [t1] -> Int
+cuantosEquiposSon ::(Equipo ->  Bool )  ->[Equipo] -> Int
 cuantosEquiposSon algo [] = 0
 cuantosEquiposSon algo (e:es) 
   | algo e = 1 + cuantosEquiposSon algo es
